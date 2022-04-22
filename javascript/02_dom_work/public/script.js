@@ -9,3 +9,23 @@ function changeColor()	{
     header.style.color = color;
     console.log(color);
 }
+
+function toggleBox()	{
+    let domButton = document.getElementById("dombutton");
+    let anchor = document.getElementById("anchor");
+    if  (domButton.value === "Show")	{
+	    domButton.value = "Hide";
+   	    let box = document.createElement("div");
+   	    box.style.height = "200px";
+        box.style.width = "200px";
+        box.style.backgroundColor = "red";
+        box.setAttribute("id","redbox");
+        anchor.appendChild(box);
+    }   else	{
+	    domButton.value = "Show";
+	    let redbox = document.getElementById("redbox");
+	    if(redbox) {
+	        anchor.removeChild(redbox);
+	    }
+    }
+}
