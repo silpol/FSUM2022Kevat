@@ -1,0 +1,18 @@
+{
+  "name": "02_dom_work",
+  "version": "1.0.0",
+  "description": "DOM work",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "DOM",
+    "work"
+  ],
+  "author": "silpol",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
