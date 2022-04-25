@@ -1,0 +1,24 @@
+Numeronarvauspeli
+
+Arvataan numeroa 1-100 väliltä. Peli laskee arvausten määrän. 
+Arvauksen jälkeen peli ilmoittaa, että oliko arvaus liian suuri 
+vai liian pieni. Jos arvaa 75 ja arvaus on liian suuri peli estää
+suuremman luvun arvaamisen ja sama liian pienelle. Peli estää 
+myös 1-100 ulkopuolelta arvaamisen sekä kirjaimet (isNaN toimii).
+Peli juhlii (päätä miten), kun arvaat oikein. Lisää myös Reset nappula, 
+jolla voi aloittaa  pelin alusta.
+
+Number Guess Game.
+
+We are guessing a number between 1-100. Game calculates the number of guesses.
+After a guess game informs if the guess was too high or too low. You
+can't guess higher than last "too high" guess or lower than last "too low" guess.
+Also you can't guess non numbers (isNaN() works). When you guess correctly,
+the game tells you the number of guesses used and celebrates. Also create
+a reset button to reset the game.
+
+or 
+
+Socket.IO
+
+https://socket.io/
