@@ -24,6 +24,13 @@ app.post("/api/contact", function(req, res){
     return res.status(201).json(contact);
 })
 
+app.delete("/api/contact/:id", function(req,res) {
+    let tempId = parseInt(req.params.id,10);
+    let tempDatabase = database.filter(contact => contact.id !== tempId)
+    database = tempDatabase;
+    return res.status(200).json({message:"success!"});
+})
+
 app.listen(3000);
 
 console.log("Running in port 3000");
