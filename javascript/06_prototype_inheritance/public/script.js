@@ -1,3 +1,16 @@
+function Universe() {
+	var instance;
+	Universe = function Universe() {
+		return instance;
+	}
+	Universe.prototype = this;
+	instance = new Universe();
+	instance.constructor = Universe;
+	instance.size = 0;
+	instance.bang = "Big";
+	return instance;	
+}
+
 function start() {
 	let HelloWorld = function() {
 		this.name = "World";
@@ -33,4 +46,15 @@ function start() {
 	console.log(object2);
 	
 	functionTest.myVar = 50;
+	
+	Universe.prototype.nothing = true;
+	let uni1 = new Universe();
+	console.log(uni1.nothing);
+	Universe.prototype.everything = false;
+	console.log(uni1.everything);
+	let uni2 = new Universe();
+	console.log(uni2.nothing);
+	console.log(uni2.everything);
+	console.log(uni1);
+	console.log(uni2);
 }
