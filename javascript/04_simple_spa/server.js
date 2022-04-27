@@ -5,6 +5,8 @@ let app = express();
 let database = [];
 let id = 100;
 
+app.use(express.static("public"));
+
 app.use(express.json());
 
 app.get("/api/contact", function(req,res) {
