@@ -3,6 +3,8 @@ window.onload = function() {
 	getContactList();
 }
 
+var mode = 0;
+
 createForm = () => {
 	let anchor = document.getElementById("anchor");
 	let form = document.createElement("form");
@@ -93,6 +95,10 @@ addToList = async () => {
 	}
 	let method = "POST";
 	let url = "/api/contact";
+	if(mode) {
+		method = "PUT";
+		url = "/api/contact/"+mode
+	}
 	let request = {
 		method:method,
 		mode:"cors",
@@ -105,6 +111,11 @@ addToList = async () => {
 		lastname.value = "";
 		email.value = "";
 		phone.value = "";
+		if(mode) {
+			mode = 0;
+			let submitbutton = document.getElementById("submitbutton");
+			submitbutton.value = "Add";
+		}
 		getContactList();
 	} else {
 		console.log("Server responded with a status:",response.status);
@@ -126,6 +137,33 @@ getContactList = async () => {
 	}
 }
 
+removeFromList = async (id) => {
+	let request = {
+		method:"DELETE",
+		mode:"cors",
+		headers:{"Content-type":"application/json"}
+	}
+	let response = await fetch("/api/contact/"+id,request);
+	if(response.ok) {
+		getContactList();
+	} else {
+		console.log("Failed to remove id "+id+". Server responded with a status:",response.status);
+	}
+}
+
+changeToEditMode = (contact) => {
+	mode = contact.id;
+	let firstname = document.getElementById("firstnameinput");
+	let lastname = document.getElementById("lastnameinput");
+	let email = document.getElementById("emailinput");
+	let phone = document.getElementById("phoneinput");
+	let submitbutton = document.getElementById("submitbutton");
+	firstname.value = contact.firstname;
+	lastname.value = contact.lastname;
+	email.value = contact.email;
+	phone.value = contact.phone;
+	submitbutton.value = "Save";
+}
 populateTable = (data) => {
 	let anchor = document.getElementById("anchor");
 	let oldTable = document.getElementById("table");
@@ -191,7 +229,7 @@ populateTable = (data) => {
 		removeButton.setAttribute("value","Remove");
 		removeButton.setAttribute("name",data[i].id);
 		removeButton.addEventListener("click",function(event) {
-			console.log("This will remove id:",event.target.name);
+			removeFromList(event.target.name);
 		})
 		removeColumn.appendChild(removeButton);
 		
@@ -200,7 +238,7 @@ populateTable = (data) => {
 		editButton.setAttribute("type","button");
 		editButton.setAttribute("value","Edit");
 		editButton.addEventListener("click",function(event) {
-			console.log("This will edit object:",data[i])
+			changeToEditMode(data[i]);
 		})
 		editColumn.appendChild(editButton);
 		tableRow.appendChild(removeColumn);
