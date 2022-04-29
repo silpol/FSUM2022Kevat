@@ -1,6 +1,6 @@
 Project Work-info
 
-Aim: Everyone creates a simple full-stack application preferably using MERN stack. Database and backend can be changed but frontend 
+Aim: Either alone or in groups of 2-4 everyone creates a simple full-stack application preferably using MERN stack. Database and backend can be changed but frontend 
 should be React. Application will have a frontend, backend and a database. It will also have some kind of user management and session management.
 
 Timetable: Project should be finished at the end of the course.
