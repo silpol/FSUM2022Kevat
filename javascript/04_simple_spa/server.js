@@ -9,6 +9,7 @@ app.use(express.static("public"));
 
 app.use(express.json());
 
+<<<<<<< HEAD
 app.get("/api/contact", function(req,res) {
     return res.status(200).json(database);
 })
@@ -49,6 +50,48 @@ app.put("/api/contact/:id", function(req, res) {
         }
     }
     return res.status(404).json({message:"not found!"});
+=======
+app.get("/api/contact",function(req,res) {
+	return res.status(200).json(database);
+})
+
+app.post("/api/contact",function(req,res) {
+	let contact = {
+		id:id,
+		firstname:req.body.firstname,
+		lastname:req.body.lastname,
+		email:req.body.email,
+		phone:req.body.phone
+	}
+	id++;
+	database.push(contact);
+	return res.status(201).json(contact);
+})
+
+app.delete("/api/contact/:id",function(req,res) {
+	let tempId = parseInt(req.params.id,10);
+	let tempDatabase = database.filter(contact => contact.id !== tempId)
+	database = tempDatabase;
+	return res.status(200).json({message:"success!"});
+})
+
+app.put("/api/contact/:id",function(req,res) {
+	let tempId = parseInt(req.params.id,10);
+	for(let i=0;i<database.length;i++) {
+		if(tempId === database[i].id) {
+			let contact = {
+				id:tempId,
+				firstname:req.body.firstname,
+				lastname:req.body.lastname,
+				email:req.body.email,
+				phone:req.body.phone
+			}
+			database.splice(i,1,contact);
+			return res.status(200).json({message:"success!"});
+		}
+	}
+	return res.status(404).json({message:"not found!"});
+>>>>>>> 47b64bc14d5fa6b3b2557540a68e287c06530541
 })
 
 app.listen(3000);

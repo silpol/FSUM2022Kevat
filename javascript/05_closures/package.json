@@ -1,15 +1,23 @@
 {
   "name": "05_closures",
   "version": "1.0.0",
+<<<<<<< HEAD
   "description": "closures examples",
+=======
+  "description": "closures example",
+>>>>>>> 47b64bc14d5fa6b3b2557540a68e287c06530541
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+<<<<<<< HEAD
   "keywords": [
     "closure"
   ],
   "author": "silpol",
+=======
+  "author": "erno",
+>>>>>>> 47b64bc14d5fa6b3b2557540a68e287c06530541
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.0"

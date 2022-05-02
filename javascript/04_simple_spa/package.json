@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+<<<<<<< HEAD
   "keywords": [
     "spa",
     "single",
@@ -13,6 +14,9 @@
     "application"
   ],
   "author": "silpol",
+=======
+  "author": "erno",
+>>>>>>> 47b64bc14d5fa6b3b2557540a68e287c06530541
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.3"

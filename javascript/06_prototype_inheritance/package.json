@@ -6,12 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+<<<<<<< HEAD
   "keywords": [
     "prototype",
     "object",
     "inheritance"
   ],
   "author": "silpol",
+=======
+  "author": "erno",
+>>>>>>> 47b64bc14d5fa6b3b2557540a68e287c06530541
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.0"
