@@ -89,7 +89,7 @@ app.post("/login", function(req,res) {
                     return res.status(500).json({message:"Internal server error"});
                 }
                 if(!success) {
-                    return req.status(401).json({message:"Unauthorized!"});
+                    return res.status(401).json({message:"Unauthorized!"});
                 }
                 let token = createToken();
                 let now = Date.now();

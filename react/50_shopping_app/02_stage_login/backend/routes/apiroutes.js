@@ -10,8 +10,8 @@ let id = 100;
 // REST API
 
 router.get("/shopping", function(req,res) {
-
-    return res.status(200).json(database);
+    let tempDatabase = database.filter(item => item.user === req.session.user)
+    return res.status(200).json(tempDatabase);
 });
 
 router.post("/shopping", function(req,res) {
@@ -25,7 +25,8 @@ router.post("/shopping", function(req,res) {
         type:req.body.type,
         count:req.body.count,
         price:req.body.price,
-        id:id
+        id:id,
+        user:req.session.user
     }
     id++;
     database.push(item);
@@ -36,6 +37,9 @@ router.delete("/shopping/:id",function(req,res) {
     let tempId = parseInt(req.params.id, 10);
     for(let i=0;i<database.length;i++) {
         if(tempId === database[i].id)
+            if(req.session.user !== database[i].user) {
+                return res.status(409).json({message:"You are not authorized to delete this item!"});
+            }
             database.splice(i,1);
             return res.status(200).json({message:"Success!"})
     }
@@ -55,9 +59,13 @@ router.put("/shopping/:id", function(req,res) {
         count:req.body.count,
         price:req.body.price,
         id:tempId
+        user:req.session.user
     }
     for(let i=0;i<database.length;i++) {
         if(tempId === database[i].id)
+            if(req.session.user !== database[i].user) {
+                return res.status(409).json({message:"You are not authorized to delete this item!"});
+            }
             database.splice(i,1, item);
             return res.status(200).json({message:"Success!"})
     }
