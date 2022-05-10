@@ -9,12 +9,12 @@ let id = 100;
 
 // REST API
 
-app.get("/api/shopping", function(req,res) {
+router.get("/shopping", function(req,res) {
 
     return res.status(200).json(database);
 });
 
-app.post("/api/shopping", function(req,res) {
+router.post("/shopping", function(req,res) {
     if(!req.body) {
         return res.status(400).json({message:"Bad request"});
     }
@@ -32,7 +32,7 @@ app.post("/api/shopping", function(req,res) {
     return res.status(201).json(item);
 })
 
-app.delete("/api/shopping/:id",function(req,res) {
+router.delete("/shopping/:id",function(req,res) {
     let tempId = parseInt(req.params.id, 10);
     for(let i=0;i<database.length;i++) {
         if(tempId === database[i].id)
@@ -42,7 +42,7 @@ app.delete("/api/shopping/:id",function(req,res) {
     return res.status(404).json({message:"not found"})
 })
 
-app.put("/api/shopping/:id", function(req,res) {
+router.put("/shopping/:id", function(req,res) {
     let tempId = parseInt(req.params.id, 10);
     if(!req.body) {
         return res.status(400).json({message:"Bad request"});
@@ -64,3 +64,5 @@ app.put("/api/shopping/:id", function(req,res) {
     return res.status(404).json({message:"not found"})
 
 });
+
+module.exports = router;
