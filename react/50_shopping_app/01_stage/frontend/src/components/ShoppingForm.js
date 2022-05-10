@@ -31,6 +31,7 @@ const ShoppingForm = (props) => {
     }
 
     return(
+    <div style={{width:500,backgroundColor:"lightgreen",margin:"auto"}}>
         <form onSubmit={onSubmit} className="mb-3">
             <label htmlFor="type" className="form-label">Type</label>
             <input type="text"
@@ -38,24 +39,25 @@ const ShoppingForm = (props) => {
                 id="type"
                 className="form-control"
                 onChange={onChange}
-                value={state.type}>
-            <label htmlFor="count" className="form-label">Type</label>
+                value={state.type}/>
+            <label htmlFor="count" className="form-label">Count</label>
             <input type="number"
                 name="count"
                 id="count"
                 className="form-control"
                 onChange={onChange}
-                value={state.count}>
-            <label htmlFor="price" className="form-label">Type</label>
+                value={state.count}/>
+            <label htmlFor="price" className="form-label">Price</label>
             <input type="number"
-                name="type"
+                name="price"
                 id="price"
                 step="0.01"
                 className="form-control"
                 onChange={onChange}
-                value={state.price}>
-            <input type="submit" className="btn btn-primary" value="Add">
+                value={state.price}/>
+            <input type="submit" className="btn btn-primary" value="Add"/>
         </form>
+     </div>
     )
 
 }
