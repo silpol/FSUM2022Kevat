@@ -4,7 +4,7 @@ const LoginPage = (props) => {
     const [state, setState] = useState({
         username:"",
         password:""
-    }})
+    })
 
     const onChange = (event) => {
         setState((state) => {
@@ -35,7 +35,7 @@ const LoginPage = (props) => {
     return (
         <div style={{
             "width":500,
-            "backgroundColor:"lightgreen",
+            "backgroundColor":"lightgreen",
             "margin":"auto"
         }}>
             <form className="mb-3">
@@ -56,6 +56,7 @@ const LoginPage = (props) => {
                 <button className="btn btn-primary" name="register" onClick={onSubmit}>Register</button>
                 <button className="btn btn-primary" name="login" onClick={onSubmit}>Login</button>
             </form>
+        </div>
     )
 }
 

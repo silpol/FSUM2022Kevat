@@ -10,7 +10,7 @@ import {Route, Routes} from 'react-router-dom';
 function App() {
 
     const [state, setState] = useState({
-        list:[]
+        list:[],
         isLogged:false,
         token:"",
         loading:false,
@@ -28,9 +28,18 @@ function App() {
             return {
                 ...state,
                 loading:loading,
-                error:error
+                error:""
             }
         })
+    }
+
+    const setError = (error) => {
+    	setState((state) => {
+    		return {
+    			...state,
+    			error:error
+    		}
+    	})
     }
 
     const clearState = () => {
@@ -221,7 +230,7 @@ function App() {
   let tempRender = <Routes>
     <Route exact path="/" element={
             <LoginPage setError={setError} register={register} login={login} />
-            }>
+            } />
     </Routes>
   if(state.isLogged) {
           tempRender = <Routes>
