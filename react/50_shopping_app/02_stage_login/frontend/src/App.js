@@ -242,7 +242,7 @@ function App() {
 
   return (
     <div className="App">
-        <NavBar/>
+        <NavBar isLogged={state.isLogged}/>
         {messageArea}
         <hr/>
         {tempRender}
