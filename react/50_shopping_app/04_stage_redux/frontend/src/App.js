@@ -5,16 +5,22 @@ import ShoppingList from './components/ShoppingList';
 import Navbar from './components/Navbar';
 import LoginPage from './components/LoginPage';
 import {Routes,Route,Navigate} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 
 function App() {
 	
 	const [state,setState] = useState({
-		list:[],
-		isLogged:false,
-		token:"",
-		loading:false,
-		error:""
+		list:[]
 	})
+	
+	const appState = useSelector(state => {
+		return {
+			isLogged:state.isLogged,
+			token:state.token,
+			loading:state.loading,
+			error:state.error
+		};
+	});
 	
 	const [urlRequest,setUrlRequest] = useState({
 		url:"",
@@ -28,8 +34,8 @@ function App() {
 			if(sessionStorage.getItem("state")) {
 				let state = JSON.parse(sessionStorage.getItem("state"));
 				setState(state);
-				if(state.isLogged) {
-					getShoppingList(state.token);
+				if(appState.isLogged) {
+					getShoppingList(appState.token);
 				}
 			}
 		},[]);
@@ -40,34 +46,13 @@ function App() {
 	
 	//APP STATE FUNCTIONS
 	
-	const setLoading = (loading) => {
-		setState((state) => {
-			return {
-				...state,
-				loading:loading,
-				error:""
-			}
-		})
-	}
+
 	
-	const setError = (error) => {
-		setState((state) => {
-			let tempState = {
-				...state,
-				error:error
-			}
-			saveToStorage(tempState);
-			return tempState;
-		})
-	}
+
 	
 	const clearState = () => {
 		let state = {
-			list:[],
-			isLogged:false,
-			token:"",
-			loading:false,
-			error:""
+			list:[]
 		}
 		saveToStorage(state);
 		setState(state);
@@ -79,9 +64,7 @@ function App() {
 			if(!urlRequest.url) {
 				return;
 			}
-			setLoading(true);
 			let response = await fetch(urlRequest.url,urlRequest.request);
-			setLoading(false);
 			if(response.ok) {
 				//Handle all different successful requests for the backend
 				switch(urlRequest.action) {
@@ -105,61 +88,26 @@ function App() {
 					case "edititem":
 						getShoppingList();
 						return;
-					case "register":
-						setError("Register success!");
-						return;
-					case "login":
-						let token = await response.json();
-						setState((state) => {
-							let tempState = {
-								...state,
-								isLogged:true,
-								token:token.token
-							}
-							saveToStorage(tempState);
-							return tempState;
-						})
-						getShoppingList(token.token);
-						return;
-					case "logout":
-						clearState();
-						return;
+
 					default:
 						return;
 				}
 			} else {
-				if(response.status === 403) {
-					clearState();
-					setError("Your session has expired. Logging you out!");
-					return;
-				}
 				//TODO: handle all different failed requests for the backend
 				switch(urlRequest.action) {
 					case "getlist":
-						setError("Failed to retrieve shopping list. Server responded with a status:"+response.status)
+						
 						return;
 					case "additem":
-						setError("Failed to add new item. Server responded with a status:"+response.status)
+						
 						return;
 					case "removetem":
-						setError("Failed to remove item. Server responded with a status "+response.status)
+						
 						return;
 					case "edititem":
-						setError("Failed to edit item. Server responded with a status "+response.status)
+					
 						return;
-					case "register":
-						if(response.status === 409) {
-							setError("Username already in use. Try another.");
-						} else {
-							setError("Failed to register new user. Server responded with a status:"+response.status);
-						}
-						return;
-					case "login":
-						setError("Failed to login user. Server responded with a status:"+response.status);
-						return;
-					case "logout":
-						clearState();
-						return;
+
 					default:
 						return;
 				}
@@ -212,7 +160,7 @@ function App() {
 	
 	//REST API
 	const getShoppingList = (token) => {
-		let temptoken = state.token;
+		let temptoken = appState.token;
 		if(token) {
 			temptoken = token
 		}
@@ -235,7 +183,7 @@ function App() {
 				method:"POST",
 				mode:"cors",
 				headers:{"Content-type":"application/json",
-						"token":state.token},
+						"token":appState.token},
 				body:JSON.stringify(item)
 			},
 			action:"additem"
@@ -249,7 +197,7 @@ function App() {
 				method:"DELETE",
 				mode:"cors",
 				headers:{"Content-type":"application/json",
-						"token":state.token}
+						"token":appState.token}
 			},
 			action:"removeitem"
 		})
@@ -262,7 +210,7 @@ function App() {
 				method:"PUT",
 				mode:"cors",
 				headers:{"Content-type":"application/json",
-						"token":state.token},
+						"token":appState.token},
 				body:JSON.stringify(item)
 			},
 			action:"edititem"
@@ -272,19 +220,19 @@ function App() {
 	//CONDITIONAL RENDERING
 	
 	let messageArea = <h4> </h4>
-	if(state.loading) {
+	if(appState.loading) {
 		messageArea = <h4>Loading...</h4>
 	}
-	if(state.error) {
-		messageArea =<h4>{state.error}</h4>
+	if(appState.error) {
+		messageArea =<h4>{appState.error}</h4>
 	}
 	let tempRender = <Routes>
 			<Route exact path="/" element={
-			<LoginPage setError={setError} register={register} login={login}/>
+			<LoginPage  register={register} login={login}/>
 			}/>
 			<Route path="*" element={<Navigate to="/"/>}/>
 		</Routes>
-	if(state.isLogged) {
+	if(appState.isLogged) {
 		tempRender = <Routes>
 				<Route exact path="/" element={<ShoppingList list={state.list} removeFromList={removeFromList} editItem={editItem}/>}/>
 				<Route path="/form" element={<ShoppingForm addShoppingItem={addShoppingItem}/>}/>
