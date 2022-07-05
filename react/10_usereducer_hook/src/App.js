@@ -20,7 +20,7 @@ const listReducer = (state, action) => {
         id:state.id+1
       }
     case "REMOVE_FROM_LIST":
-      tempList=state.list.filter(contact=> contact.id!=action.id)
+      tempList=state.list.filter(contact=> contact.id !== action.id)
       return{
         ...state,
         list:tempList
@@ -31,24 +31,23 @@ const listReducer = (state, action) => {
 
 }
 
-const [state, dispatch] = useReducer(listReducer,initialState);
-
-const addToList = (contact) => {
-  dispatch({
-    type:"ADD_TO_LIST",
-    contact:contact
-  })
-}
-
-const removeFromList = (id) => {
-  dispatch({
-    type:"REMOVE_FROM_LIST",
-    id:id
-  })
-
-}
-
 function App() {
+  const [state, dispatch] = useReducer(listReducer,initialState);
+
+  const addToList = (contact) => {
+    dispatch({
+      type:"ADD_TO_LIST",
+      contact:contact
+    })
+  }
+  
+  const removeFromList = (id) => {
+    dispatch({
+      type:"REMOVE_FROM_LIST",
+      id:id
+    })
+  
+  }
   return (
     <div className="App">
       <ContactForm addContact={addToList}/>
