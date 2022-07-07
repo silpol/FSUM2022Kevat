@@ -48,7 +48,7 @@ app.use(session({
 }))
 
 app.use(passport.initialize());
-app.use(passport.session);
+app.use(passport.session());
 
 passport.use("local-login",new localStrategy({
     usernameField:"username",
@@ -99,6 +99,22 @@ passport.use("local-login",new localStrategy({
 
 }));
 
+passport.serializeUser(function(user,done) {
+    console.log("serialize user");
+    done(null,user._id);
+})
+
+passport.deserializeUser(function(_id,done){
+    console.log("deserialize user");
+    userModel.findById(_id,function(err,user) {
+        if(err) {
+            return done(err)
+        }
+
+        return done(null, user);
+    })
+})
+
 //HELPERS AND MIDDLEWARE
 
 createToken = () => {
@@ -110,34 +126,19 @@ isUserLogged = (req,res,next) => {
 	if(!req.headers.token) {
 		return res.status(403).json({message:"Forbidden!"});
 	}
-    sessionModel.findOne({"token":req.headers.token}, function(err,session) {
-        if(err) {
-            console.log("Error in finding session while in filter. Reason: ", err);
-            return res.status(403).json({message:"Forbidden!"});
+    if(req.isAuthenticated()){
+        if(req.headers.token === req.session.token) {
+            let now = Date.now();
+            if(now>req.session.ttl) {
+                req.session.destroy();
+                req.logout();
+                return res.status(403).json({message:"Forbidden"});
+            }
+            req.session.ttl = now + time_to_life_diff;
+            return next();
         }
-        if(!session) {
-            return res.status(403).json({message:"Forbidden!"});
-        }
-        let now = Date.now();
-        if(now>session.ttl) {
-            sessionModel.deleteOne({"_id":session._id}, function(err) {
-                if(err) {
-                    console.log("Failed to remove expired session. Reason: ",err)
-                }
-                return res.status(403).json({message:"Forbidden!"});
-            })
-        } else {
-            req.session = {};
-            req.session.user = session.user;
-            session.ttl = now + time_to_life_diff;
-            session.save(function(err) {
-                if(err) {
-                    console.log("Failed to update session. Reason: ", err)
-                }
-                return next();
-            })
-        }
-    });
+    }
+    return res.status(403).json({message:"Forbidden"})
 }
 
 //LOGIN API
@@ -182,12 +183,12 @@ app.post("/logout",function(req,res) {
 	if(!req.headers.token) {
 		return res.status(404).json({message:"not found"})
 	}
-	sessionModel.deleteOne({"token":req.headers.token},function(err){
-	    if(err) {
-	        console.log("Failed to remove session. Reason: ", err)
-	    }
-	    return res.status(200).json({message:"success!"})
-	})
+    if(req.session){
+        req.logout();
+        req.session.destroy();
+        return res.status(200).json({message:"logged out"})
+    }
+    return res.status(404).json({message:"not found"});
 })
 
 app.use("/api",isUserLogged,apiroutes);
