@@ -7,7 +7,7 @@ const userModel = require("./models/user");
 const sessionModel = require("./models/session");
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
-const session = require('connect-session');
+const session = require('express-session');
 const mongoStore = require("connect-mongo");
 
 let app = express();
