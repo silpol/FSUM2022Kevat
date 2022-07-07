@@ -11,7 +11,7 @@ let app = express();
 
 app.use(express.json());
 
-const port = process.env.port || 3001;
+const port = process.env.PORT || 3001;
 const mongo_user = process.env.MONGODB_USER;
 const mongo_password = process.env.MONGODB_PASSWORD;
 const mongo_url = process.env.MONGODB_URL;
