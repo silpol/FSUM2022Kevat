@@ -11,7 +11,7 @@ const port = process.env.port || 3001;
 
 let registeredUsers = [];
 let loggedSessions = [];
-let time_to_life_diff = 3600000; // 1 hour = 60 * 60 secs = * 1000 * millisecs
+let time_to_life_diff = 3600000; //10000; // 1 hour = 60 * 60 secs = * 1000 * millisecs
 
 // Helpers and middleware
 

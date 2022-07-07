@@ -23,6 +23,24 @@ function App() {
         action:""
     })
 
+    // storage functions
+
+    useEffect(() => {
+        if(sessionStorage.getItem("state")) {
+            let state = JSON.parse(sessionStorage.getItem("state"));
+            setState(state);
+            if(state.isLogged) {
+            getShoppingList(state.token);
+            }
+        }
+    },[]);
+
+    // app state functions
+
+    const saveToStorage = (state) => {
+        sessionStorage.setItem("state",JSON.stringify(state));
+    }
+
     const setLoading = (loading) => {
         setState((state) => {
             return {
@@ -35,21 +53,25 @@ function App() {
 
     const setError = (error) => {
     	setState((state) => {
-    		return {
+    	    let tempState = {
     			...state,
     			error:error
     		}
+    		saveToStorage(tempState);
+    		return tempState;
     	})
     }
 
     const clearState = () => {
-        setState({
+        let state ={
             list:[],
             isLogged:false,
             token:"",
             loading:false,
             error:""
-        })
+        }
+        saveToStorage(state);
+        setState(state);
     }
 
     useEffect(() => {
@@ -66,10 +88,12 @@ function App() {
                     case "getlist":
                         let data = await response.json();
                         setState((state) => {
-                            return {
+                            let tempState = {
                                 ...state,
                                 list:data
                             }
+                            saveToStorage(tempState);
+                            return tempState;
                         })
                         return;
                     case "additem":
@@ -87,11 +111,13 @@ function App() {
                     case "login":
                         let token = await response.json();
                         setState((state) => {
-                            return {
+                            let tempState = {
                                 ...state,
                                 isLogged:true,
                                 token:token.token
                             }
+                            saveToStorage(tempState)
+                            return tempState;
                         })
                         getShoppingList(token.token);
                         return;
@@ -223,7 +249,7 @@ function App() {
 
   // Conditional rendering
 
-  let messageArea = <h2></h2>
+  let messageArea = <h4> </h4>
   if (state.loading) {
     messageArea = <h2>Loading...</h2>
   }
