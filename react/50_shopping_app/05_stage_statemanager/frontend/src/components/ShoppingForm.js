@@ -1,7 +1,10 @@
 import {useState} from 'react';
+import useAction from '../hooks/useAction';
 
 const ShoppingForm = (props) => {
 	
+	const {add} = useAction();
+		
 	const [state,setState] = useState({
 		type:"",
 		count:0,
@@ -22,7 +25,7 @@ const ShoppingForm = (props) => {
 		let item = {
 			...state
 		}
-		props.addShoppingItem(item);
+		add(item);
 		setState({
 			type:"",
 			count:0,

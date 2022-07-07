@@ -2,8 +2,13 @@ import Row from './Row'
 import RemoveRow from './RemoveRow';
 import EditRow from './EditRow';
 import {useState} from 'react';
+import useAction from '../hooks/useAction';
+import useAppState from '../hooks/useAppState';
 
 const ShoppingList = (props) => {
+
+	const {list} = useAppState();
+	const {remove,edit} = useAction();
 
 	const [state,setState] = useState({
 		removeIndex:-1,
@@ -32,16 +37,16 @@ const ShoppingList = (props) => {
 	}
 	
 	const removeFromList = (id) => {
-		props.removeFromList(id);
+		remove(id);
 		cancel();
 	}
 	
 	const editItem = (item) => {
-		props.editItem(item);
+		edit(item);
 		cancel();
 	}
 	
-	let items = props.list.map((item,index) => {
+	let items = list.map((item,index) => {
 		if(state.editIndex === index) {
 			return(
 				<EditRow key={item.id} item={item} editItem={editItem} cancel={cancel}/>
