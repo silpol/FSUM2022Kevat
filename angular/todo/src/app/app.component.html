@@ -10,8 +10,20 @@
     id="addItemInput"
   />
     <button class="btn-primary" (click)="addItem(newItem.value)">Add</button>
-  
+
+    <h2>{{items.length}} <span *ngIf="items.length === 1; else elseBlock">item</span>
+      <ng-template #elseBlock>items</ng-template></h2>
+      
+      <ul>
+        <li *ngFor="let item of items">
+          <app-item (remove)="remove(item)" [item]="item"></app-item>
+        </li>
+      </ul>
+      
+    
+<!--
   <ul>
     <li *ngFor="let item of items">{{item.description}}</li>
   </ul>
+-->
 </div>
