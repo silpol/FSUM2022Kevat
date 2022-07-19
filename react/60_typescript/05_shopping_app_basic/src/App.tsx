@@ -1,24 +1,27 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ShoppingList from './components/ShoppingList';
+import ShoppingForm from './components/ShoppingForm';
+import {useAction} from './hooks/useAction';
+
 
 function App() {
+
+  const [list,loading,getList,addItem,removeItem,editItem] = useAction();
+
+  let header = <h2>Shopping App</h2>
+
+  if(loading) {
+    header = <h2>Loading...</h2>
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {header}
+      <ShoppingForm addItem={addItem}/>
+      <hr/>
+      <ShoppingList list={list} removeItem={removeItem} editItem={editItem}/>
     </div>
   );
 }
