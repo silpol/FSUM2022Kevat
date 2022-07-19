@@ -53,7 +53,7 @@ const ShoppingList:React.FC<Props> = (props:Props) => {
 	
 	let items = props.list.map((item,index) => {
 		return(
-			<Row item={item} index={index} handleButtons={handleButtons}/>
+			<Row key={item.id} item={item} index={index} handleButtons={handleButtons}/>
 		)
 	}) 
 	return(
