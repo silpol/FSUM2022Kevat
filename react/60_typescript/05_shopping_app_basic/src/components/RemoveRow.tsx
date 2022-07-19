@@ -3,7 +3,7 @@ import ShoppingItem from "../models/ShoppingItem";
 
 interface Props {
     item:ShoppingItem;
-    removeItem:(item:ShoppingItem) => void;
+    removeItem:(id:number | string) => void;
     cancel:() => void;
 }
 
@@ -14,7 +14,7 @@ const RemoveRow:React.FC<Props> = (props:Props) => {
             <td>{props.item.count}</td>
             <td>{props.item.price}</td>
             <td><button onClick={()=> props.cancel()}>Remove</button></td>
-            <td><button onClick={()=> props.removeItem(props.item)}>Confirm</button></td>
+            <td><button onClick={()=> props.removeItem(props.item.id)}>Confirm</button></td>
         </tr>
     )
 }

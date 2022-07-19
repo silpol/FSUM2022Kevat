@@ -20,14 +20,41 @@ const EditRow:React.FC<Props> = (props:Props) => {
         count:props.item.count,
         price:props.item.price
     })
+    
+    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setState((state) => {
+            return {
+                ...state,
+                [e.target.name]:e.target.value
+            }
+        })
+    }
+
+    const editItem = () => {
+        let item = new ShoppingItem(props.item.id,state.type,state.count,state.price);
+        props.editItem(item);
+    }
 
     return (
         <tr>
-            <td>{props.item.type}</td>
-            <td>{props.item.count}</td>
-            <td>{props.item.price}</td>
-            <td><button onClick={()=> props.editItem(props.item)}>Confirm</button></td>
-            <td><button onClick={()=> props.cancel()}>Remove</button></td>
+            <td><input 
+                type="text"
+                name="type"
+                onChange={onChange}
+                value={state.type}/></td>
+            <td><input 
+                type="number"
+                name="count"
+                onChange={onChange}
+                value={state.count}/></td>
+            <td><input 
+                type="number"
+                name="price"
+                onChange={onChange}
+                step="0.01"
+                value={state.price}/></td>
+            <td><button onClick={editItem}>Confirm</button></td>
+            <td><button onClick={() => props.cancel()}>Cancel</button></td>
         </tr>
     )
 }
