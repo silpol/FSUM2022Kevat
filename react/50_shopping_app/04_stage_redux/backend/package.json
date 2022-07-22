@@ -10,7 +10,7 @@
     "shopping",
     "app"
   ],
-  "author": "erno",
+  "author": "silpol",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.0.1",
